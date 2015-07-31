@@ -1,0 +1,10 @@
+{
+  "name": "elb",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "http-proxy": "~1.11.1"
+  }
+}
