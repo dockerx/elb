@@ -9,8 +9,8 @@ Elastic Load Balancer(ELB) for [DockerBox](https://github.com/dockerx/dockerbox)
 
 #### Setup a use of an elb server
 
-A new proxy is created by calling `createProxyServer` and passing
-an `options` object as argument ([valid properties are available here](lib/http-proxy.js#L33-L50))
+A new elb is created by passing the port in which the elb have to listen and 
+an `options` object as argument
 
 ```javascript
 var elb = require('elb');
@@ -27,7 +27,7 @@ Adding and removing a host to the ELB dynamically
 
 elb.add('host_name', 'proxy_target');
 
-eld.remove('host_name');
+elb.remove('host_name');
 
 ```
 #### Current Host list for debugging
