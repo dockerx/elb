@@ -33,19 +33,22 @@ elb.start = function(port, options){
 		});
 	}).listen(ElbPort);
 
-	console.log("ELB started on port " + ElbPort)
+	console.log("ELB started on port " + ElbPort);
+	writeHostList();
 }
 
 elb.add = function(hostName, proxyTarget) {
 	if(!hostName && !proxyTarget) return console.log("Adding Host to ELB failed for HostName : %s and ProxyTarget : %s" , hostName, proxyTarget);
 	HostList[hostName] = proxyTarget;
 	console.log('Added the host %s to ELB with target %s', hostName, proxyTarget);
+	writeHostList();
 }
 
 elb.remove = function(hostName) {
 	if(!HostList[hostName]) return console.log("ELB host removel failed. No host exist for hostName %s", hostName);
 	delete HostList[hostName];
 	console.log('Removed the host %s from ELB', hostName);
+	writeHostList();
 }
 
 function writeHostList() {
