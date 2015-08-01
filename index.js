@@ -54,15 +54,14 @@ elb.remove = function(hostName) {
 function writeHostList() {
     //Creating the tempfiles folder
     require('child_process').exec('mkdir -p ' + __dirname + '/tempfiles', function (err) {
-		if (err) console.log('ELB TempFile create Error : ', err);
-	});
-
-	writeHostList = function() {
-		fs.writeFile(__dirname + '/tempfiles/HostList.json', JSON.stringify(HostList), function (err) {
-			if (err) console.log('ELB TempFile write Error : ', err);
-		});
-	}
-	writeHostList();	
+		if (err) return console.log('ELB TempFile create Error : ', err);
+		writeHostList = function() {
+			fs.writeFile(__dirname + '/tempfiles/HostList.json', JSON.stringify(HostList), function (err) {
+				if (err) console.log('ELB TempFile write Error : ', err);
+			});
+		}
+		writeHostList();
+	});	
 }
 
 module.exports = elb;
