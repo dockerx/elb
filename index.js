@@ -29,7 +29,7 @@ elb.start = function(port, options){
 
 	http.createServer(function(req, res) {
 		proxy.web(req, res, {
-			target: HostList[req.headers.host] || HostList.Default
+			target: 'http://' + (HostList[req.headers.host] || HostList.Default)
 		});
 	}).listen(ElbPort);
 
