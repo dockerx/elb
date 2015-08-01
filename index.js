@@ -21,11 +21,11 @@ proxy.on('proxyReq', function(proxyReq, req, res, options) {
 });
 
 elb.start = function(port, options){
-	HostList.Default = options.defaultHost;
+	HostList.Default = options.defaultTarget;
 	ErrorMessage = options.errorMessage;
 	ElbPort = port;
 
-	if(!HostList.Default && !ElbPort) return console.log("ELB cannot be started by giving PORT and Default Options");
+	if(!HostList.Default || !ElbPort) return console.log("ELB cannot be started by giving PORT and Default Options");
 
 	http.createServer(function(req, res) {
 		proxy.web(req, res, {
@@ -38,7 +38,7 @@ elb.start = function(port, options){
 }
 
 elb.add = function(hostName, proxyTarget) {
-	if(!hostName && !proxyTarget) return console.log("Adding Host to ELB failed for HostName : %s and ProxyTarget : %s" , hostName, proxyTarget);
+	if(!hostName || !proxyTarget) return console.log("Adding Host to ELB failed for HostName : %s and ProxyTarget : %s" , hostName, proxyTarget);
 	HostList[hostName] = proxyTarget;
 	console.log('Added the host %s to ELB with target %s', hostName, proxyTarget);
 	writeHostList();
