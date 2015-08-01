@@ -27,4 +27,4 @@ build/Release
 node_modules
 
 #The application tempfiles
-#tempfiles
+tempfiles
