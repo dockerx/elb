@@ -16,7 +16,8 @@ an `options` object as argument
 var elb = require('elb');
 var options = {
 	defaultTarget : "defaultTarget",
-	errorMessage : "errorMessage"
+	errorMessage : "errorMessage",
+	strictHost : true
 };
 elb.start(80, options);
 ```

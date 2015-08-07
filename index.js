@@ -5,7 +5,8 @@ var http = require('http'),
 var elb = {},
 HostList = {},
 ElbPort,
-ErrorMessage;
+ErrorMessage,
+StrictHost;
 
 var proxy = httpProxy.createProxyServer({});
 
@@ -24,12 +25,13 @@ elb.start = function(port, options){
 	HostList.Default = options.defaultTarget;
 	ErrorMessage = options.errorMessage;
 	ElbPort = port;
+	StrictHost = !!options.strictHost;
 
 	if(!HostList.Default || !ElbPort) return console.log("ELB cannot be started by giving PORT and Default Options");
 
 	http.createServer(function(req, res) {
 		proxy.web(req, res, {
-			target: 'http://' + (HostList[req.headers.host] || HostList.Default)
+			target: 'http://' + findHost(req.headers.host)
 		});
 	}).listen(ElbPort);
 
@@ -49,6 +51,18 @@ elb.remove = function(hostName) {
 	delete HostList[hostName];
 	console.log('Removed the host %s from ELB', hostName);
 	writeHostList();
+}
+
+function findHost(host) {
+	if(StrictHost) return HostList[host] || HostList.Default;
+
+	var h = host.split('.')[0],
+	keys = Object.keys(HostList),
+	k = keys.find(function(e){
+		return RegExp('^' + h + '\\.').test(e);
+	});
+
+	return HostList[k] || HostList.Default;
 }
 
 function writeHostList() {
