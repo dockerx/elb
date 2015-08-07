@@ -58,8 +58,13 @@ function findHost(host) {
 
 	var h = host.split('.')[0],
 	keys = Object.keys(HostList),
-	k = keys.find(function(e){
-		return RegExp('^' + h + '\\.').test(e);
+	k = null;
+
+	keys.some(function(e){
+		if(RegExp('^' + h + '\\.').test(e)) {
+			k = e;
+			return true;
+		}
 	});
 
 	return HostList[k] || HostList.Default;
